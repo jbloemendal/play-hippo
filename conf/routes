@@ -4,7 +4,7 @@
 
 # An example controller showing a sample home page
 GET     /                           controllers.HomeController.index
-GET     /hippo                      controllers.HomeController.hippo
+GET     /published                  controllers.HippoController.published
 
 # An example controller showing how to use dependency injection
 GET     /count                      controllers.CountController.count
