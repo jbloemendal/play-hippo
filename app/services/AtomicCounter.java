@@ -1,7 +1,7 @@
 package services;
 
+import javax.inject.Singleton;
 import java.util.concurrent.atomic.AtomicInteger;
-import javax.inject.*;
 
 /**
  * This class is a concrete implementation of the {@link Counter} trait.

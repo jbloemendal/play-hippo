@@ -54,5 +54,4 @@ public class HippoGoGreenNewsDocument extends HippoDocument {
     public void setBodyContent(String bodyContent) {
         this.bodyContent = bodyContent;
     }
-    
 }

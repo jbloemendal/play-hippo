@@ -1,11 +1,13 @@
 package services;
 
+import play.Logger;
+import play.inject.ApplicationLifecycle;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.time.Clock;
 import java.time.Instant;
 import java.util.concurrent.CompletableFuture;
-import javax.inject.*;
-import play.Logger;
-import play.inject.ApplicationLifecycle;
 
 /**
  * This class demonstrates how to run code when the

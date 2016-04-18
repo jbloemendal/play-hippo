@@ -1,7 +1,5 @@
 package controllers;
 
-import com.typesafe.config.Config;
-import com.typesafe.config.ConfigFactory;
 import model.HippoGoGreenNewsDocument;
 import org.hippoecm.hst.content.beans.ObjectBeanManagerException;
 import org.hippoecm.hst.content.beans.manager.ObjectBeanManager;
@@ -17,31 +15,17 @@ import org.hippoecm.hst.content.beans.standard.HippoBean;
 import org.hippoecm.hst.content.beans.standard.HippoBeanIterator;
 import org.hippoecm.hst.content.beans.standard.HippoFolder;
 import org.hippoecm.hst.util.ObjectConverterUtils;
-import org.hippoecm.repository.HippoRepository;
-import org.hippoecm.repository.HippoRepositoryFactory;
 import play.Logger;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
+import services.PlayHippo;
 
-import javax.jcr.RepositoryException;
-import javax.jcr.Session;
 import java.util.*;
+
 
 public class HippoController extends Controller {
 
-    private static HippoRepository repo;
-    private static Session session;
-
-    static {
-        Config config = ConfigFactory.load();
-        try {
-            repo = HippoRepositoryFactory.getHippoRepository(config.getString("hippo.rmi.uri"));
-            session = repo.login(config.getString("hippo.rmi.user"), config.getString("hippo.rmi.password").toCharArray());
-        } catch (RepositoryException e) {
-            Logger.error("Exception occurred, no repository session available.", e);
-        }
-    }
 
     protected ObjectConverter getObjectConverter() {
         return ObjectConverterUtils.createObjectConverter(getAnnotatedClasses(), true);
@@ -57,27 +41,26 @@ public class HippoController extends Controller {
         try {
             ObjectConverter objectConverter = getObjectConverter();
 
-            ObjectBeanManager obm = new ObjectBeanManagerImpl(session, objectConverter);
-
+            ObjectBeanManager obm = new ObjectBeanManagerImpl(PlayHippo.session, objectConverter);
             HippoFolder folder = (HippoFolder) obm.getObject("/content/documents");
 
-            HstQueryManager queryManager = new HstQueryManagerImpl(session, objectConverter, null);
-
+            HstQueryManager queryManager = new HstQueryManagerImpl(PlayHippo.session, objectConverter, null);
             HstQuery hstQuery = queryManager.createQuery(folder);
+
             Filter filter = hstQuery.createFilter();
             filter.addEqualTo("jcr:primaryType", "gogreen:newsdocument");
             filter.addEqualTo("hippostd:state", "published");
 
             List<Object> jsonResponse = new LinkedList<Object>();
-            final HstQueryResult result = hstQuery.execute();
 
+            final HstQueryResult result = hstQuery.execute();
             for (HippoBeanIterator it = result.getHippoBeans(); it.hasNext(); ) {
                 HippoBean bean = it.nextHippoBean();
                 if (bean != null && bean instanceof HippoGoGreenNewsDocument) {
                     jsonResponse.add(new HashMap() {
                         {
                             put("uuid", bean.getCanonicalUUID());
-                            put("title", bean.getProperty("gogreen:title"));
+                            put("title", ((HippoGoGreenNewsDocument) bean).getTitle());
                             put("path", bean.getPath());
                             put("content", ((HippoGoGreenNewsDocument) bean).getBodyContent());
                         }

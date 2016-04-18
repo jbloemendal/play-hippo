@@ -1,12 +1,15 @@
 package filters;
 
 import akka.stream.Materializer;
+import play.mvc.Filter;
+import play.mvc.Http.RequestHeader;
+import play.mvc.Result;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.Executor;
 import java.util.function.Function;
-import javax.inject.*;
-import play.mvc.*;
-import play.mvc.Http.RequestHeader;
 
 
 /**
