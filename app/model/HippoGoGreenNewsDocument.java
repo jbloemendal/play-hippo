@@ -13,20 +13,20 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package controllers;
+package model;
 
 import org.hippoecm.hst.content.beans.Node;
 import org.hippoecm.hst.content.beans.standard.HippoDocument;
 import org.hippoecm.hst.content.beans.standard.HippoHtml;
 
-@Node(jcrType="unittestproject:textpage")
-public class PersistableTextPage extends HippoDocument {
+@Node(jcrType="gogreen:newsdocument")
+public class HippoGoGreenNewsDocument extends HippoDocument {
     
     protected String title;
     protected String bodyContent;
 
     public String getTitle() {
-        return (title != null ? title : (String) getProperty("unittestproject:title"));
+        return (title != null ? title : (String) getProperty("gogreen:title"));
     }
     
     public void setTitle(String title) {
@@ -34,7 +34,7 @@ public class PersistableTextPage extends HippoDocument {
     }
     
     public HippoHtml getBody(){
-        return getHippoHtml("unittestproject:body");
+        return getHippoHtml("gogreen:content");
     }
     
     public String getBodyContent() {

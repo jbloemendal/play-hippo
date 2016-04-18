@@ -1,5 +1,8 @@
 package controllers;
 
+import com.typesafe.config.Config;
+import com.typesafe.config.ConfigFactory;
+import model.HippoGoGreenNewsDocument;
 import org.hippoecm.hst.content.beans.ObjectBeanManagerException;
 import org.hippoecm.hst.content.beans.manager.ObjectBeanManager;
 import org.hippoecm.hst.content.beans.manager.ObjectBeanManagerImpl;
@@ -31,9 +34,10 @@ public class HippoController extends Controller {
     private static Session session;
 
     static {
+        Config config = ConfigFactory.load();
         try {
-            repo = HippoRepositoryFactory.getHippoRepository("rmi://localhost:1099/hipporepository");
-            session = repo.login("admin", new char[] {'a', 'd', 'm', 'i', 'n'});
+            repo = HippoRepositoryFactory.getHippoRepository(config.getString("hippo.rmi.uri"));
+            session = repo.login(config.getString("hippo.rmi.user"), config.getString("hippo.rmi.password").toCharArray());
         } catch (RepositoryException e) {
             Logger.error("Exception occurred, no repository session available.", e);
         }
@@ -45,7 +49,7 @@ public class HippoController extends Controller {
 
     protected Collection<Class<? extends HippoBean>> getAnnotatedClasses() {
         List<Class<? extends HippoBean>> annotatedClasses = new ArrayList<Class<? extends HippoBean>>();
-        annotatedClasses.add(PersistableTextPage.class);
+        annotatedClasses.add(HippoGoGreenNewsDocument.class);
         return annotatedClasses;
     }
 
@@ -61,6 +65,7 @@ public class HippoController extends Controller {
 
             HstQuery hstQuery = queryManager.createQuery(folder);
             Filter filter = hstQuery.createFilter();
+            filter.addEqualTo("jcr:primaryType", "gogreen:newsdocument");
             filter.addEqualTo("hippostd:state", "published");
 
             List<Object> jsonResponse = new LinkedList<Object>();
@@ -68,12 +73,13 @@ public class HippoController extends Controller {
 
             for (HippoBeanIterator it = result.getHippoBeans(); it.hasNext(); ) {
                 HippoBean bean = it.nextHippoBean();
-                if (bean != null) {
+                if (bean != null && bean instanceof HippoGoGreenNewsDocument) {
                     jsonResponse.add(new HashMap() {
                         {
                             put("uuid", bean.getCanonicalUUID());
                             put("title", bean.getProperty("gogreen:title"));
                             put("path", bean.getPath());
+                            put("content", ((HippoGoGreenNewsDocument) bean).getBodyContent());
                         }
                     });
                 }
