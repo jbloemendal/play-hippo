@@ -2,6 +2,18 @@ package services;
 
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
+import model.HippoGoGreenNewsDocument;
+import org.hippoecm.hst.content.beans.ObjectBeanManagerException;
+import org.hippoecm.hst.content.beans.manager.ObjectBeanManager;
+import org.hippoecm.hst.content.beans.manager.ObjectBeanManagerImpl;
+import org.hippoecm.hst.content.beans.manager.ObjectConverter;
+import org.hippoecm.hst.content.beans.query.HstQuery;
+import org.hippoecm.hst.content.beans.query.HstQueryManager;
+import org.hippoecm.hst.content.beans.query.HstQueryManagerImpl;
+import org.hippoecm.hst.content.beans.query.exceptions.QueryException;
+import org.hippoecm.hst.content.beans.standard.HippoBean;
+import org.hippoecm.hst.content.beans.standard.HippoFolder;
+import org.hippoecm.hst.util.ObjectConverterUtils;
 import org.hippoecm.repository.HippoRepository;
 import org.hippoecm.repository.HippoRepositoryFactory;
 import play.Logger;
@@ -10,6 +22,9 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 @Singleton
@@ -36,6 +51,27 @@ public class PlayHippo {
             repo.close();
             return CompletableFuture.completedFuture(null);
         });
+    }
+
+
+    private static ObjectConverter getObjectConverter() {
+        return ObjectConverterUtils.createObjectConverter(getAnnotatedClasses(), true);
+    }
+
+    private static Collection<Class<? extends HippoBean>> getAnnotatedClasses() {
+        List<Class<? extends HippoBean>> annotatedClasses = new ArrayList<Class<? extends HippoBean>>();
+        annotatedClasses.add(HippoGoGreenNewsDocument.class);
+        return annotatedClasses;
+    }
+
+    public static HstQuery createQuery(String folderPath) throws QueryException, ObjectBeanManagerException {
+        ObjectConverter objectConverter = getObjectConverter();
+
+        ObjectBeanManager obm = new ObjectBeanManagerImpl(PlayHippo.session, objectConverter);
+        HippoFolder folder = (HippoFolder) obm.getObject(folderPath);
+
+        HstQueryManager queryManager = new HstQueryManagerImpl(PlayHippo.session, objectConverter, null);
+        return queryManager.createQuery(folder);
     }
 
 }

@@ -26,26 +26,9 @@ import java.util.*;
 
 public class HippoController extends Controller {
 
-
-    protected ObjectConverter getObjectConverter() {
-        return ObjectConverterUtils.createObjectConverter(getAnnotatedClasses(), true);
-    }
-
-    protected Collection<Class<? extends HippoBean>> getAnnotatedClasses() {
-        List<Class<? extends HippoBean>> annotatedClasses = new ArrayList<Class<? extends HippoBean>>();
-        annotatedClasses.add(HippoGoGreenNewsDocument.class);
-        return annotatedClasses;
-    }
-
     public Result published() {
         try {
-            ObjectConverter objectConverter = getObjectConverter();
-
-            ObjectBeanManager obm = new ObjectBeanManagerImpl(PlayHippo.session, objectConverter);
-            HippoFolder folder = (HippoFolder) obm.getObject("/content/documents");
-
-            HstQueryManager queryManager = new HstQueryManagerImpl(PlayHippo.session, objectConverter, null);
-            HstQuery hstQuery = queryManager.createQuery(folder);
+            HstQuery hstQuery = PlayHippo.createQuery("/content/documents");
 
             Filter filter = hstQuery.createFilter();
             filter.addEqualTo("jcr:primaryType", "gogreen:newsdocument");
@@ -70,7 +53,7 @@ public class HippoController extends Controller {
 
             return ok(Json.toJson(jsonResponse));
         } catch (ObjectBeanManagerException e) {
-            Logger.error("Exception occurred, folder documents unavailable.", e);
+            Logger.error("Exception occurred, folder /content/documents unavailable.", e);
             return internalServerError(e.getMessage());
         } catch (QueryException e) {
             Logger.error("Exception occurred, HstQuery unavailable.", e);
