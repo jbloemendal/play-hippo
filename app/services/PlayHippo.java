@@ -58,11 +58,13 @@ public class PlayHippo {
         return ObjectConverterUtils.createObjectConverter(getAnnotatedClasses(), true);
     }
 
+
     private static Collection<Class<? extends HippoBean>> getAnnotatedClasses() {
         List<Class<? extends HippoBean>> annotatedClasses = new ArrayList<Class<? extends HippoBean>>();
         annotatedClasses.add(HippoGoGreenNewsDocument.class);
         return annotatedClasses;
     }
+
 
     public static HstQuery createQuery(String folderPath) throws QueryException, ObjectBeanManagerException {
         ObjectConverter objectConverter = getObjectConverter();
