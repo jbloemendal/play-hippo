@@ -4,8 +4,9 @@
 
 # An example controller showing a sample home page
 GET     /                           controllers.HomeController.index
-GET     /published                  controllers.HippoController.published
-GET     /uuid/:uuid                 controllers.HippoController.uuid(uuid:String)
+
+GET     /published                  playhippo.controllers.HippoController.published
+GET     /uuid/:uuid                 playhippo.controllers.HippoController.uuid(uuid:String)
 
 # An example controller showing how to use dependency injection
 GET     /count                      controllers.CountController.count

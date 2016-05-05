@@ -1,25 +1,18 @@
-package controllers;
+package playhippo.controllers;
 
-import model.HippoGoGreenNewsDocument;
+import playhippo.model.HippoGoGreenNewsDocument;
 import org.hippoecm.hst.content.beans.ObjectBeanManagerException;
-import org.hippoecm.hst.content.beans.manager.ObjectBeanManager;
-import org.hippoecm.hst.content.beans.manager.ObjectBeanManagerImpl;
-import org.hippoecm.hst.content.beans.manager.ObjectConverter;
 import org.hippoecm.hst.content.beans.query.HstQuery;
-import org.hippoecm.hst.content.beans.query.HstQueryManager;
-import org.hippoecm.hst.content.beans.query.HstQueryManagerImpl;
 import org.hippoecm.hst.content.beans.query.HstQueryResult;
 import org.hippoecm.hst.content.beans.query.exceptions.QueryException;
 import org.hippoecm.hst.content.beans.query.filter.Filter;
 import org.hippoecm.hst.content.beans.standard.HippoBean;
 import org.hippoecm.hst.content.beans.standard.HippoBeanIterator;
-import org.hippoecm.hst.content.beans.standard.HippoFolder;
-import org.hippoecm.hst.util.ObjectConverterUtils;
 import play.Logger;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
-import services.PlayHippo;
+import playhippo.services.PlayHippo;
 
 import java.util.*;
 
@@ -79,7 +72,8 @@ public class HippoController extends Controller {
             HippoBeanIterator it = result.getHippoBeans();
             final HippoBean bean;
 
-            if (it.hasNext() && (bean = it.nextHippoBean()) != null) {
+            if (it.hasNext() && (bean = it.nextHippoBean()) != null
+                    && bean instanceof HippoGoGreenNewsDocument) {
                 response = new HashMap() {
                     {
                         put("uuid", bean.getCanonicalUUID());

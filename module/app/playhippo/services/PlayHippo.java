@@ -1,8 +1,8 @@
-package services;
+package playhippo.services;
 
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
-import model.HippoGoGreenNewsDocument;
+import playhippo.model.HippoGoGreenNewsDocument;
 import org.hippoecm.hst.content.beans.ObjectBeanManagerException;
 import org.hippoecm.hst.content.beans.manager.ObjectBeanManager;
 import org.hippoecm.hst.content.beans.manager.ObjectBeanManagerImpl;
@@ -35,7 +35,7 @@ public class PlayHippo {
 
     @Inject
     public PlayHippo(play.inject.ApplicationLifecycle appLifecycle) {
-
+        // TODO handle reconnect / timeout?
         Config config = ConfigFactory.load();
         try {
             repo = HippoRepositoryFactory.getHippoRepository(config.getString("hippo.rmi.uri"));
