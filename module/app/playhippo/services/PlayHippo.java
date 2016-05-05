@@ -2,7 +2,6 @@ package playhippo.services;
 
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
-import playhippo.model.HippoGoGreenNewsDocument;
 import org.hippoecm.hst.content.beans.ObjectBeanManagerException;
 import org.hippoecm.hst.content.beans.manager.ObjectBeanManager;
 import org.hippoecm.hst.content.beans.manager.ObjectBeanManagerImpl;
@@ -54,19 +53,21 @@ public class PlayHippo {
     }
 
 
-    private static ObjectConverter getObjectConverter() {
+    private static ObjectConverter getObjectConverter() throws ClassNotFoundException {
         return ObjectConverterUtils.createObjectConverter(getAnnotatedClasses(), true);
     }
 
 
-    private static Collection<Class<? extends HippoBean>> getAnnotatedClasses() {
+    private static Collection<Class<? extends HippoBean>> getAnnotatedClasses() throws ClassNotFoundException {
         List<Class<? extends HippoBean>> annotatedClasses = new ArrayList<Class<? extends HippoBean>>();
-        annotatedClasses.add(HippoGoGreenNewsDocument.class);
+        // TODO load class names from configuration
+        Class<?> bean = Class.forName("model.HippoGoGreenNewsDocument");
+        annotatedClasses.add((Class<? extends HippoBean>) bean);
         return annotatedClasses;
     }
 
 
-    public static HstQuery createQuery(String folderPath) throws QueryException, ObjectBeanManagerException {
+    public static HstQuery createQuery(String folderPath) throws QueryException, ObjectBeanManagerException, ClassNotFoundException {
         ObjectConverter objectConverter = getObjectConverter();
 
         ObjectBeanManager obm = new ObjectBeanManagerImpl(PlayHippo.session, objectConverter);
@@ -75,5 +76,7 @@ public class PlayHippo {
         HstQueryManager queryManager = new HstQueryManagerImpl(PlayHippo.session, objectConverter, null);
         return queryManager.createQuery(folder);
     }
+
+    // TODO add more helper methods
 
 }

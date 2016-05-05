@@ -1,6 +1,6 @@
-package playhippo.controllers;
+package controllers;
 
-import playhippo.model.HippoGoGreenNewsDocument;
+import model.HippoGoGreenNewsDocument;
 import org.hippoecm.hst.content.beans.ObjectBeanManagerException;
 import org.hippoecm.hst.content.beans.query.HstQuery;
 import org.hippoecm.hst.content.beans.query.HstQueryResult;
@@ -53,6 +53,9 @@ public class HippoController extends Controller {
         } catch (QueryException e) {
             Logger.error("Exception occurred, HstQuery unavailable.", e);
             return internalServerError(e.getMessage());
+        } catch (ClassNotFoundException e) {
+            Logger.error("Exception occurred, HippoBean unavailable.", e);
+            return internalServerError(e.getMessage());
         }
     }
 
@@ -93,6 +96,9 @@ public class HippoController extends Controller {
             return internalServerError(e.getMessage());
         } catch (QueryException e) {
             Logger.error("Exception occurred, HstQuery unavailable.", e);
+            return internalServerError(e.getMessage());
+        } catch (ClassNotFoundException e) {
+            Logger.error("Exception occurred, HippoBean unavailable.", e);
             return internalServerError(e.getMessage());
         }
     }
