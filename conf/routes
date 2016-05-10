@@ -7,6 +7,7 @@ GET     /                           controllers.HomeController.index
 
 GET     /published                  controllers.HippoController.published
 GET     /uuid/:uuid                 controllers.HippoController.uuid(uuid:String)
+GET     /browse/*path               controllers.HippoController.browse(path:String)
 
 # An example controller showing how to use dependency injection
 GET     /count                      controllers.CountController.count

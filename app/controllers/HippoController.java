@@ -14,6 +14,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import playhippo.services.PlayHippo;
 
+import javax.jcr.*;
 import java.util.*;
 
 
@@ -24,7 +25,7 @@ public class HippoController extends Controller {
             HstQuery hstQuery = PlayHippo.createQuery("/content/documents");
 
             Filter filter = hstQuery.createFilter();
-            filter.addEqualTo("jcr:primaryType", "gogreen:newsdocument");
+            filter.addEqualTo("jcr:primaryType", "hippogogreen:newsitem");
             filter.addEqualTo("hippostd:state", "published");
 
             hstQuery.setFilter(filter);
@@ -99,6 +100,50 @@ public class HippoController extends Controller {
             return internalServerError(e.getMessage());
         } catch (ClassNotFoundException e) {
             Logger.error("Exception occurred, HippoBean unavailable.", e);
+            return internalServerError(e.getMessage());
+        }
+    }
+
+
+    public Result browse(String path) {
+        StringBuilder builder = new StringBuilder("/");
+        builder.append(path);
+
+        Session session = PlayHippo.getSession();
+        try {
+            Node root = session.getNode(builder.toString());
+
+            Map<String, List> props = new HashMap<String, List>();
+
+            PropertyIterator properties = root.getProperties();
+            while (properties.hasNext()) {
+                Property property = properties.nextProperty();
+                if (!property.isMultiple()) {
+                    props.put(property.getName(), new LinkedList<String>() {{ add(property.getValue().toString()); }});
+                } else {
+                    List<String> multiValue = new LinkedList<String>();
+                    for (Value value : property.getValues()) {
+                        multiValue.add(value.toString());
+                    }
+                    props.put(property.getName(), multiValue);
+                }
+            }
+
+            Map<String, String> childNodes = new HashMap<String, String>();
+
+            NodeIterator nodes = root.getNodes();
+            while (nodes.hasNext()) {
+                Node node = nodes.nextNode();
+                childNodes.put(node.getName(), node.getPath());
+            }
+
+            Map<String, Map> map = new HashMap<String, Map>();
+            map.put("child", childNodes);
+            map.put("properties", props);
+
+            return ok(Json.toJson(map));
+        } catch (RepositoryException e) {
+            Logger.error("Exception occurred, browsing repository.", e);
             return internalServerError(e.getMessage());
         }
     }

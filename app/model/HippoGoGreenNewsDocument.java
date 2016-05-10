@@ -19,7 +19,7 @@ import org.hippoecm.hst.content.beans.Node;
 import org.hippoecm.hst.content.beans.standard.HippoDocument;
 import org.hippoecm.hst.content.beans.standard.HippoHtml;
 
-@Node(jcrType="gogreen:newsdocument")
+@Node(jcrType="hippogogreen:newsitem")
 public class HippoGoGreenNewsDocument extends HippoDocument {
     
     protected String title;
