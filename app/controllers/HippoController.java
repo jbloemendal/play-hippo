@@ -20,46 +20,6 @@ import java.util.*;
 
 public class HippoController extends Controller {
 
-    public Result published() {
-        try {
-            HstQuery hstQuery = PlayHippo.createQuery("/content/documents");
-
-            Filter filter = hstQuery.createFilter();
-            filter.addEqualTo("jcr:primaryType", "hippogogreen:newsitem");
-            filter.addEqualTo("hippostd:state", "published");
-
-            hstQuery.setFilter(filter);
-
-            List<Object> jsonResponse = new LinkedList<Object>();
-
-            final HstQueryResult result = hstQuery.execute();
-            for (HippoBeanIterator it = result.getHippoBeans(); it.hasNext(); ) {
-                HippoBean bean = it.nextHippoBean();
-                if (bean != null && bean instanceof HippoGoGreenNewsDocument) {
-                    jsonResponse.add(new HashMap() {
-                        {
-                            put("uuid", bean.getCanonicalUUID());
-                            put("title", ((HippoGoGreenNewsDocument) bean).getTitle());
-                            put("path", bean.getPath());
-                            put("content", ((HippoGoGreenNewsDocument) bean).getBodyContent());
-                        }
-                    });
-                }
-            }
-
-            return ok(Json.toJson(jsonResponse));
-        } catch (ObjectBeanManagerException e) {
-            Logger.error("Exception occurred, folder /content/documents unavailable.", e);
-            return internalServerError(e.getMessage());
-        } catch (QueryException e) {
-            Logger.error("Exception occurred, HstQuery unavailable.", e);
-            return internalServerError(e.getMessage());
-        } catch (ClassNotFoundException e) {
-            Logger.error("Exception occurred, HippoBean unavailable.", e);
-            return internalServerError(e.getMessage());
-        }
-    }
-
 
     public Result uuid(String uuid) {
         try {
@@ -69,21 +29,21 @@ public class HippoController extends Controller {
             filter.addEqualTo("jcr:uuid", uuid);
             hstQuery.setFilter(filter);
 
-            final HstQueryResult result = hstQuery.execute();
+            Logger.info("hstQuery: "+hstQuery.toString());
 
-            Map<String, Object> response = null;
+            final HstQueryResult result = hstQuery.execute();
 
             HippoBeanIterator it = result.getHippoBeans();
             final HippoBean bean;
 
-            if (it.hasNext() && (bean = it.nextHippoBean()) != null
-                    && bean instanceof HippoGoGreenNewsDocument) {
+            Logger.info("uuid: "+uuid);
+
+            Map<String, Object> response = null;
+            if (it.hasNext() && (bean = it.nextHippoBean()) != null) {
                 response = new HashMap() {
                     {
                         put("uuid", bean.getCanonicalUUID());
-                        put("title", ((HippoGoGreenNewsDocument) bean).getTitle());
                         put("path", bean.getPath());
-                        put("content", ((HippoGoGreenNewsDocument) bean).getBodyContent());
                     }
                 };
             }
@@ -91,9 +51,10 @@ public class HippoController extends Controller {
             if (response == null) {
                 return notFound();
             }
+
             return ok(Json.toJson(response));
         } catch (ObjectBeanManagerException e) {
-            Logger.error("Exception occurred, folder /content/documents unavailable.", e);
+            Logger.error("Exception occurred, folder / unavailable.", e);
             return internalServerError(e.getMessage());
         } catch (QueryException e) {
             Logger.error("Exception occurred, HstQuery unavailable.", e);
@@ -113,13 +74,13 @@ public class HippoController extends Controller {
         try {
             Node root = session.getNode(builder.toString());
 
-            Map<String, List> props = new HashMap<String, List>();
+            Map<String, Object> props = new HashMap<String, Object>();
 
             PropertyIterator properties = root.getProperties();
             while (properties.hasNext()) {
                 Property property = properties.nextProperty();
                 if (!property.isMultiple()) {
-                    props.put(property.getName(), new LinkedList<String>() {{ add(property.getValue().toString()); }});
+                    props.put(property.getName(), property.getValue().toString());
                 } else {
                     List<String> multiValue = new LinkedList<String>();
                     for (Value value : property.getValues()) {

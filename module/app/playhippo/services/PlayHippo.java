@@ -83,7 +83,6 @@ public class PlayHippo {
             annotatedClasses.add((Class<? extends HippoBean>) bean);
         }
 
-        System.out.println(annotatedClasses.toString());
         return annotatedClasses;
     }
 
