@@ -1,5 +1,5 @@
 import com.google.inject.AbstractModule;
-import playhippo.services.PlayHippo;
+import org.onehippo.playhippo.services.PlayHippo;
 import services.ApplicationTimer;
 import services.AtomicCounter;
 import services.Counter;

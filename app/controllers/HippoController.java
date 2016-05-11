@@ -1,6 +1,5 @@
 package controllers;
 
-import model.HippoGoGreenNewsDocument;
 import org.hippoecm.hst.content.beans.ObjectBeanManagerException;
 import org.hippoecm.hst.content.beans.query.HstQuery;
 import org.hippoecm.hst.content.beans.query.HstQueryResult;
@@ -12,7 +11,7 @@ import play.Logger;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
-import playhippo.services.PlayHippo;
+import org.onehippo.playhippo.services.PlayHippo;
 
 import javax.jcr.*;
 import java.util.*;

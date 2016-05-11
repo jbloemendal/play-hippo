@@ -1,7 +1,8 @@
 #Play Framework & Hippo CMS Integration Example
 
-- Checkout the Hippo CMS[2] demo project Hippo Go Green and build and run the project[3]. 
-- Make sure Hippo CMS is running, run play-hippo:
+- checkout the Hippo CMS[2] demo project Hippo Go Green
+- build and run the project[3]
+- make sure Hippo CMS is running, run play-hippo:
 
 ```
 ./activator

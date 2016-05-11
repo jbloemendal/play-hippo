@@ -1,11 +1,9 @@
-package playhippo.services;
+package org.onehippo.playhippo.services;
 
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
-import org.hippoecm.hst.content.beans.ContentNodeBinder;
 import org.hippoecm.hst.content.beans.Node;
 import org.hippoecm.hst.content.beans.ObjectBeanManagerException;
-import org.hippoecm.hst.content.beans.ObjectBeanPersistenceException;
 import org.hippoecm.hst.content.beans.manager.ObjectBeanManager;
 import org.hippoecm.hst.content.beans.manager.ObjectBeanManagerImpl;
 import org.hippoecm.hst.content.beans.manager.ObjectConverter;
@@ -22,7 +20,6 @@ import org.hippoecm.repository.HippoRepository;
 import org.hippoecm.repository.HippoRepositoryFactory;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
-import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.core.type.filter.AnnotationTypeFilter;
 import play.Logger;
 
@@ -32,7 +29,6 @@ import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
-import java.util.stream.Collectors;
 
 @Singleton
 public class PlayHippo {
@@ -134,4 +130,5 @@ public class PlayHippo {
     public static Session getSession() {
         return session;
     }
+
 }

@@ -1,6 +1,7 @@
 name := """playhippo"""
+organization:= "org.onehippo"
 
-version := "1.0-SNAPSHOT"
+version := "1.0"
 
 lazy val module = (project in file(".")).enablePlugins(PlayJava)
 
