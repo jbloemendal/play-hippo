@@ -2,6 +2,7 @@ package org.onehippo.playhippo.services;
 
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
+import org.apache.commons.lang3.StringUtils;
 import org.hippoecm.hst.content.beans.Node;
 import org.hippoecm.hst.content.beans.ObjectBeanManagerException;
 import org.hippoecm.hst.content.beans.manager.ObjectBeanManager;
@@ -13,6 +14,7 @@ import org.hippoecm.hst.content.beans.query.HstQueryManager;
 import org.hippoecm.hst.content.beans.query.HstQueryManagerImpl;
 import org.hippoecm.hst.content.beans.query.exceptions.QueryException;
 import org.hippoecm.hst.content.beans.standard.HippoBean;
+import org.hippoecm.hst.content.beans.standard.HippoDocument;
 import org.hippoecm.hst.content.beans.standard.HippoFolder;
 import org.hippoecm.hst.content.beans.standard.HippoFolderBean;
 import org.hippoecm.hst.util.ObjectConverterUtils;
@@ -43,8 +45,26 @@ public class PlayHippo {
         try {
             annotatedClasses = getAnnotatedClasses();
 
-            repo = HippoRepositoryFactory.getHippoRepository(config.getString("hippo.rmi.uri"));
-            session = repo.login(config.getString("hippo.rmi.user"), config.getString("hippo.rmi.password").toCharArray());
+            String uri = config.getString("hippo.rmi.uri");
+            if (StringUtils.isEmpty(uri)) {
+                Logger.error("config parameter hippo.rmi.uri is missing.");
+                return;
+            }
+
+            String user = config.getString("hippo.rmi.user");
+            if (StringUtils.isEmpty(user)) {
+                Logger.error("config parameter hippo.rmi.user is missing.");
+                return;
+            }
+
+            char[] password = config.getString("hippo.rmi.password").toCharArray();
+            if (password == null || StringUtils.isEmpty(password.toString())) {
+                Logger.error("config parameter hippo.rmi.password is missing.");
+                return;
+            }
+
+            repo = HippoRepositoryFactory.getHippoRepository(uri);
+            session = repo.login(user, password);
 
             Logger.info("Hippo repository connection established");
         } catch (RepositoryException e) {
@@ -82,39 +102,76 @@ public class PlayHippo {
         return annotatedClasses;
     }
 
+    /**
+     * Retrieve a hippo bean (document, folder ...)
+     * @param path the path to the document
+     * @return the hippo bean
+     * @throws ClassNotFoundException
+     * @throws ObjectBeanManagerException
+     */
+    public static HippoBean getHippoBean(String path) throws ClassNotFoundException, ObjectBeanManagerException {
+        ObjectConverter objectConverter = getObjectConverter();
 
+        ObjectBeanManager obm = new ObjectBeanManagerImpl(PlayHippo.session, objectConverter);
+
+        return (HippoBean) obm.getObject(path);
+    }
+
+    /**
+     * Create a hst query
+     * @param folderPath the content root
+     * @return the hst query
+     * @throws QueryException
+     * @throws ObjectBeanManagerException
+     * @throws ClassNotFoundException
+     */
     public static HstQuery createQuery(String folderPath) throws QueryException, ObjectBeanManagerException, ClassNotFoundException {
         ObjectConverter objectConverter = getObjectConverter();
 
         ObjectBeanManager obm = new ObjectBeanManagerImpl(PlayHippo.session, objectConverter);
-        HippoFolder folder = (HippoFolder) obm.getObject(folderPath);
 
         HstQueryManager queryManager = new HstQueryManagerImpl(PlayHippo.session, objectConverter, null);
+
+        HippoFolder folder = (HippoFolder) obm.getObject(folderPath);
         return queryManager.createQuery(folder);
     }
 
-
+    /**
+     * Create a hippo folder.
+     * @param newFolderNodePath the folder node path
+     * @param hippoStdFolderNodeType the folder node type
+     * @param folderName the folder name
+     * @return the hippo folder
+     * @throws ClassNotFoundException
+     * @throws ObjectBeanManagerException
+     */
     public static HippoFolderBean createFolder(String newFolderNodePath, String hippoStdFolderNodeType, String folderName)
             throws ClassNotFoundException, ObjectBeanManagerException {
         ObjectConverter objectConverter = getObjectConverter();
 
         WorkflowPersistenceManagerImpl wpm = new WorkflowPersistenceManagerImpl(session, objectConverter);
 
-        HippoFolderBean newFolder = null;
-
         // create a document with type and name
         String absoluteCreatedDocumentPath = wpm.createAndReturn(newFolderNodePath, hippoStdFolderNodeType, folderName, true);
 
         // retrieves the document created just before
-        newFolder = (HippoFolderBean) wpm.getObject(absoluteCreatedDocumentPath);
+        HippoFolderBean newFolder = (HippoFolderBean) wpm.getObject(absoluteCreatedDocumentPath);
 
         wpm.save();
 
         return newFolder;
     }
 
-
-    public static HippoBean newDocument(String folderNodePath, String documentType, String newDocumentNodeName)
+    /**
+     * Create a document
+     * @param folderNodePath the folder path
+     * @param documentType the document type
+     * @param newDocumentNodeName the document node name
+     * @return created hippo document
+     * @throws ClassNotFoundException
+     * @throws ObjectBeanManagerException
+     */
+    public static HippoBean createDocument(String folderNodePath, String documentType, String newDocumentNodeName)
             throws ClassNotFoundException, ObjectBeanManagerException {
         ObjectConverter objectConverter = getObjectConverter();
 
@@ -122,11 +179,15 @@ public class PlayHippo {
 
         // create a document with type and name
         String absoluteCreatedDocumentPath = wpm.createAndReturn(folderNodePath, documentType, newDocumentNodeName, false);
+
         // retrieves the document created just before
         return (HippoBean) wpm.getObject(absoluteCreatedDocumentPath);
     }
 
-
+    /**
+     * Get the jcr session and access the native jcr api.
+     * @return the session
+     */
     public static Session getSession() {
         return session;
     }

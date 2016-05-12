@@ -1,0 +1,8 @@
+@(document:model.HippoGoGreenNewsDocument)
+@import helper._
+
+@main("News") {
+    <h2>@document.getTitle()</h2>
+    <pre>type: HippoGoGreenNewsDocument</pre>
+    <p>@Html(document.getBodyContent())</p>
+}

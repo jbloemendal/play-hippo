@@ -15,15 +15,31 @@ public class IntegrationTest {
     @Test
     public void testBrowse() {
         running(testServer(3333, fakeApplication(inMemoryDatabase())), HTMLUNIT, browser -> {
-            browser.goTo("http://localhost:3333/browse/content");
+            browser.goTo("http://localhost:3333/browseJcr/content");
 
             assertTrue(browser.pageSource().contains("properties"));
             assertTrue(browser.pageSource().contains("child"));
             assertTrue(browser.pageSource().contains("\"documents\":\"/content/documents\""));
             assertTrue(browser.pageSource().contains("cafebabe-cafe-babe-cafe-babecafebabe"));
 
-            browser.goTo("http://localhost:3333/browse/content/documents");
+            browser.goTo("http://localhost:3333/browseJcr/content/documents");
             assertTrue(browser.pageSource().contains("cafebabe-cafe-babe-cafe-babecafebabe"));
+        });
+    }
+
+
+    @Test
+    public void testContent() {
+        running(testServer(3333, fakeApplication(inMemoryDatabase())), HTMLUNIT, browser -> {
+            browser.goTo("http://localhost:3333/browseJcr/content");
+
+            assertTrue(browser.pageSource().contains("properties"));
+            assertTrue(browser.pageSource().contains("child"));
+            assertTrue(browser.pageSource().contains("\"documents\":\"/content/documents\""));
+            assertTrue(browser.pageSource().contains("cafebabe-cafe-babe-cafe-babecafebabe"));
+
+            browser.goTo("http://localhost:3333/content/content/documents");
+            assertTrue(browser.pageSource().contains("path: /content/documents"));
         });
     }
 
@@ -31,14 +47,14 @@ public class IntegrationTest {
     @Test
     public void testUuid() {
         running(testServer(3333, fakeApplication(inMemoryDatabase())), HTMLUNIT, browser -> {
-            browser.goTo("http://localhost:3333/browse/content");
+            browser.goTo("http://localhost:3333/browseJcr/content");
 
             assertTrue(browser.pageSource().contains("properties"));
             assertTrue(browser.pageSource().contains("child"));
             assertTrue(browser.pageSource().contains("\"documents\":\"/content/documents\""));
             assertTrue(browser.pageSource().contains("cafebabe-cafe-babe-cafe-babecafebabe"));
 
-            browser.goTo("http://localhost:3333/browse/content/documents");
+            browser.goTo("http://localhost:3333/browseJcr/content/documents");
             JsonNode root = Json.parse(browser.pageSource());
             JsonNode properties = root.get("properties");
             JsonNode jcrUuid = properties.get("jcr:uuid");

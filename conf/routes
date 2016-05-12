@@ -5,7 +5,8 @@
 # An example controller showing a sample home page
 GET     /                           controllers.HomeController.index
 GET     /uuid/:uuid                 controllers.HippoController.uuid(uuid:String)
-GET     /browse/*path               controllers.HippoController.browse(path:String)
+GET     /browseJcr/*path            controllers.HippoController.browseJcr(path:String)
+GET     /content/*path              controllers.HippoController.content(path:String)
 
 # An example controller showing how to use dependency injection
 GET     /count                      controllers.CountController.count

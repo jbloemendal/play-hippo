@@ -1,0 +1,8 @@
+@(folder:org.hippoecm.hst.content.beans.standard.HippoFolder)
+@import helper._
+
+@main("Folder") {
+    <h2>@folder.getName()</h2>
+    <pre>type: folder</pre>
+    <pre>path: @folder.getPath()</pre>
+}

@@ -26,7 +26,7 @@ public class HippoGoGreenNewsDocument extends HippoDocument {
     protected String bodyContent;
 
     public String getTitle() {
-        return (title != null ? title : (String) getProperty("gogreen:title"));
+        return (title != null ? title : (String) getProperty("hippogogreen:title"));
     }
     
     public void setTitle(String title) {
@@ -34,7 +34,7 @@ public class HippoGoGreenNewsDocument extends HippoDocument {
     }
     
     public HippoHtml getBody(){
-        return getHippoHtml("gogreen:content");
+        return getHippoHtml("hippogogreen:description");
     }
     
     public String getBodyContent() {

@@ -1,6 +1,6 @@
 #PlayHippo Service Module
-The service module wraps hippo cms 10.2.0 dependencies and provides a singelton helper tool class PlayHippo with which
-you can access Hippo repository using HST contentbeans, facilitating HippoBeans (see for example: controllers.HomeController and model.HippoGoGreenNewsDocument).
+The service module wraps Hippo CMS 10.2.0 dependencies and provides a singelton helper tool class PlayHippo with which
+you can access Hippo repository using HST ContentBeans (see for example: model.HippoGoGreenNewsDocument and controllers.HomeController).
 
 
 ##Add hippo service module dependency (build.sbt):
@@ -44,5 +44,3 @@ public static Session getSession()
 [https://playframework.com/](https://playframework.com/)<br/>
 [http://www.onehippo.org/](http://www.onehippo.org/)<br/>
 [http://www.onehippo.org/7_8/library/development/check-out-go-green-from-subversion.html](http://www.onehippo.org/7_8/library/development/check-out-go-green-from-subversion.html)
-
-

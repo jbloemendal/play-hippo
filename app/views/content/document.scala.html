@@ -1,0 +1,8 @@
+@(document:org.hippoecm.hst.content.beans.standard.HippoDocument)
+@import helper._
+
+@main("Document") {
+    <h2>@document.getName()</h2>
+    <pre>type: document</pre>
+    <pre>@document.getPath()</pre>
+}
