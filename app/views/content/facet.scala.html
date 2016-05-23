@@ -8,19 +8,27 @@
     <pre>type: facet</pre>
     <pre>path: @facet.getPath()</pre>
 
+    <h3>navigation</h3>
     <ul>
     @for(folder <- facet.getFolders()) {
         @if(folder.isInstanceOf[HippoFacetNavigation]) {
-            <li>@folder.getName() (@folder.asInstanceOf[HippoFacetNavigation].getCount())
+            <li><a href="@folder.getPath()">@folder.getName() (@folder.asInstanceOf[HippoFacetNavigation].getCount())</a>
                 <ul>
                 @for(childFolder <- folder.getFolders()) {
                     @if(childFolder.isInstanceOf[HippoFacetNavigation]) {
-                        <li>@childFolder.getName() (@childFolder.asInstanceOf[HippoFacetNavigation].getCount())</li>
+                        <li><a href="@childFolder.getPath()">@childFolder.getName() (@childFolder.asInstanceOf[HippoFacetNavigation].getCount())</a></li>
                     }
                 }
                 </ul>
             </li>
         }
     }
+    </ul>
+
+    <h3>result</h3>
+    <ul>
+        @for(document <- facet.getResultSet().getDocuments()) {
+        <li><a href="@document.getPath()">@document.getPath()</a></li>
+        }
     </ul>
 }

@@ -1,8 +1,18 @@
-@(document:org.hippoecm.hst.content.beans.standard.HippoDocument)
 @import helper._
+@import org.hippoecm.hst.content.beans.standard._
+
+@(document:HippoDocument)
 
 @main("Document") {
     <h2>@document.getName()</h2>
     <pre>type: document</pre>
     <pre>@document.getPath()</pre>
+
+    <h3>Properties</h3>
+    <dl>
+    @for((key, value) <- document.getProperties()) {
+        <dt>@key</dt>
+        <dd>@value</dd>
+    }
+    </dl>
 }
