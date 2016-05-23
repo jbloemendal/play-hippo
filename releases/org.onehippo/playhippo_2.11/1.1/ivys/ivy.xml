@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ivy-module version="2.0" xmlns:e="http://ant.apache.org/ivy/extra">
+	<info organisation="org.onehippo" module="playhippo_2.11" revision="1.1" status="release" publication="20160523134431">
+		<description>
+		playhippo
+		</description>
+	</info>
+	<configurations>
+		<conf name="compile" visibility="public" description=""/>
+		<conf name="runtime" visibility="public" description="" extends="compile"/>
+		<conf name="test" visibility="public" description="" extends="runtime"/>
+		<conf name="provided" visibility="public" description=""/>
+		<conf name="optional" visibility="public" description=""/>
+		
+		
+		
+		
+		<conf name="sources" visibility="public" description=""/>
+		
+		<conf name="pom" visibility="public" description=""/>
+		
+	</configurations>
+	<publications>
+		<artifact name="playhippo_2.11" type="pom" ext="pom" conf="pom"/>
+		<artifact name="playhippo_2.11" type="jar" ext="jar" conf="compile"/>
+		<artifact name="playhippo_2.11" type="src" ext="jar" conf="sources" e:classifier="sources"/>
+		
+	</publications>
+	<dependencies>
+		
+		<dependency org="org.scala-lang" name="scala-library" rev="2.11.7" conf="compile->default(compile)"/>
+		<dependency org="com.typesafe.play" name="twirl-api_2.11" rev="1.1.1" conf="compile->default(compile)"/>
+		<dependency org="com.typesafe.play" name="play-enhancer" rev="1.1.0" conf="compile->default(compile)"/>
+		<dependency org="com.typesafe.play" name="play-server_2.11" rev="2.5.1" conf="compile->default(compile)"/>
+		<dependency org="com.typesafe.play" name="play-test_2.11" rev="2.5.1" conf="test->default(compile)"/>
+		
+		<dependency org="com.typesafe.play" name="play-java_2.11" rev="2.5.1" conf="compile->default(compile)"/>
+		<dependency org="com.typesafe.play" name="play-netty-server_2.11" rev="2.5.1" conf="compile->default(compile)"/>
+		<dependency org="com.typesafe.play" name="play-logback_2.11" rev="2.5.1" conf="compile->default(compile)"/>
+		<dependency org="javax.jcr" name="jcr" rev="2.0" conf="compile->default(compile)"/>
+		<dependency org="org.onehippo.cms7" name="hippo-repository-api" rev="3.2.0" conf="compile->default(compile)"/>
+		<dependency org="org.onehippo.cms7" name="hippo-repository-connector" rev="3.2.0" conf="compile->default(compile)"/>
+		<dependency org="org.onehippo.cms7" name="hippo-cms7-commons" rev="2.2.0" conf="compile->default(compile)"/>
+		<dependency org="org.onehippo.cms7.hst" name="hst-api" rev="3.2.0" conf="compile->default(compile)"/>
+		<dependency org="org.onehippo.cms7.hst" name="hst-commons" rev="3.2.0" conf="compile->default(compile)"/>
+		<dependency org="org.onehippo.cms7.hst" name="hst-content-beans" rev="3.2.0" conf="compile->default(compile)"/>
+		<dependency org="com.typesafe.play" name="play-java-jdbc_2.11" rev="2.5.1" conf="compile->default(compile)"/>
+		<dependency org="com.typesafe.play" name="play-cache_2.11" rev="2.5.1" conf="compile->default(compile)"/>
+		<dependency org="com.typesafe.play" name="play-java-ws_2.11" rev="2.5.1" conf="compile->default(compile)"/>
+	</dependencies>
+</ivy-module>
