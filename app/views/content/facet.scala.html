@@ -1,0 +1,26 @@
+@import helper._
+@import org.hippoecm.hst.content.beans.standard.facetnavigation._
+
+@(facet:HippoFacetNavigation)
+
+@main("Facet") {
+    <h2>@facet.getName()</h2>
+    <pre>type: facet</pre>
+    <pre>path: @facet.getPath()</pre>
+
+    <ul>
+    @for(folder <- facet.getFolders()) {
+        @if(folder.isInstanceOf[HippoFacetNavigation]) {
+            <li>@folder.getName() (@folder.asInstanceOf[HippoFacetNavigation].getCount())
+                <ul>
+                @for(childFolder <- folder.getFolders()) {
+                    @if(childFolder.isInstanceOf[HippoFacetNavigation]) {
+                        <li>@childFolder.getName() (@childFolder.asInstanceOf[HippoFacetNavigation].getCount())</li>
+                    }
+                }
+                </ul>
+            </li>
+        }
+    }
+    </ul>
+}

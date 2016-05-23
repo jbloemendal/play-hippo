@@ -10,6 +10,7 @@ import org.hippoecm.hst.content.beans.standard.HippoBean;
 import org.hippoecm.hst.content.beans.standard.HippoBeanIterator;
 import org.hippoecm.hst.content.beans.standard.HippoDocument;
 import org.hippoecm.hst.content.beans.standard.HippoFolder;
+import org.hippoecm.hst.content.beans.standard.facetnavigation.HippoFacetNavigation;
 import play.Logger;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -117,7 +118,7 @@ public class HippoController extends Controller {
      * @return view template example
      */
     public Result content(String path) {
-        StringBuilder pathBuilder = new StringBuilder("/").append(path);
+        StringBuilder pathBuilder = new StringBuilder("/content/").append(path);
 
         try {
             HippoBean hippoBean = PlayHippo.getHippoBean(pathBuilder.toString());
@@ -130,7 +131,9 @@ public class HippoController extends Controller {
 
                 return ok(views.html.content.news.render((HippoGoGreenNewsDocument)hippoBean));
             } else if (hippoBean instanceof HippoDocument) {
-                return ok(views.html.content.document.render((HippoDocument)hippoBean));
+                return ok(views.html.content.document.render((HippoDocument) hippoBean));
+            } else if (hippoBean instanceof HippoFacetNavigation) {
+                return ok(views.html.content.facet.render((HippoFacetNavigation)hippoBean));
             } else if (hippoBean instanceof HippoFolder) {
                 return ok(views.html.content.folder.render((HippoFolder)hippoBean));
             }
