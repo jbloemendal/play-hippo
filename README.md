@@ -34,5 +34,4 @@ See [PlayHippoTool.java](https://github.com/jbloemendal/play-hippo/blob/master/m
 
 [https://playframework.com/](https://playframework.com/)<br/>
 [http://www.onehippo.org/](http://www.onehippo.org/)<br/>
-[http://www.onehippo.org/7_8/library/development/check-out-go-green-from-subversion.html](http://www.onehippo.org/7_8/library/development/check-out-go-green-from-subversion.html)<br/>
 http://jannisbloe.blogspot.nl/2016/05/integrating-play-framework-and-hippo-cms.html
