@@ -31,16 +31,7 @@ http://www.onehippo.org/library/concepts/content-repository/repository-deploymen
 
 
 ##org.onehippo.playhippo.services.PlayHippoTool Usage
-```
-public static HstQuery createQuery(String folderPath)
-
-public static HippoFolderBean createFolder(String newFolderNodePath, String hippoStdFolderNodeType, String folderName)
-
-public static HippoBean newDocument(String folderNodePath, String documentType, String newDocumentNodeName)
-
-public static Session getSession()
-
-```
+See https://github.com/jbloemendal/play-hippo/blob/master/module/app/org/onehippo/playhippo/services/PlayHippoTool.java
 
 [https://playframework.com/](https://playframework.com/)<br/>
 [http://www.onehippo.org/](http://www.onehippo.org/)<br/>
