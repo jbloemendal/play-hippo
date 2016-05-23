@@ -11,7 +11,7 @@ resolvers += (
 )
 
 libraryDependencies ++= Seq(
-  "org.onehippo" % "playhippo_2.11" % "1.0",
+  "org.onehippo" % "playhippo_2.11" % "1.1",
   ...
 )
 ```
