@@ -30,7 +30,7 @@ hippo.rmi.password = "admin"
 http://www.onehippo.org/library/concepts/content-repository/repository-deployment-settings.html
 
 
-##org.onehippo.playhippo.services.PlayHippoTool Usage
+##PlayHippoTool Usage
 See https://github.com/jbloemendal/play-hippo/blob/master/module/app/org/onehippo/playhippo/services/PlayHippoTool.java
 
 [https://playframework.com/](https://playframework.com/)<br/>
