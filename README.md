@@ -31,7 +31,7 @@ http://www.onehippo.org/library/concepts/content-repository/repository-deploymen
 
 
 ##PlayHippoTool Usage
-See https://github.com/jbloemendal/play-hippo/blob/master/module/app/org/onehippo/playhippo/services/PlayHippoTool.java
+See [PlayHippoTool.java](https://github.com/jbloemendal/play-hippo/blob/master/module/app/org/onehippo/playhippo/services/PlayHippoTool.java) and [HippoController.java](https://github.com/jbloemendal/play-hippo/blob/master/app/controllers/HippoController.java).
 
 [https://playframework.com/](https://playframework.com/)<br/>
 [http://www.onehippo.org/](http://www.onehippo.org/)<br/>
