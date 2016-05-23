@@ -12,7 +12,7 @@ import play.Logger;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
-import org.onehippo.playhippo.services.PlayHippo;
+import org.onehippo.playhippo.services.PlayHippoTool;
 
 import javax.jcr.*;
 import java.util.*;
@@ -28,7 +28,7 @@ public class HippoController extends Controller {
      */
     public Result uuid(String uuid) {
         try {
-            HstQuery hstQuery = PlayHippo.createQuery("/content/documents");
+            HstQuery hstQuery = PlayHippoTool.createQuery("/content/documents");
 
             Filter filter = hstQuery.createFilter();
             filter.addEqualTo("jcr:uuid", uuid);
@@ -69,7 +69,7 @@ public class HippoController extends Controller {
     public Result browseJcr(String path) {
         StringBuilder pathBuilder = new StringBuilder("/").append(path);
 
-        Session session = PlayHippo.getSession();
+        Session session = PlayHippoTool.getSession();
         try {
             Node root = session.getNode(pathBuilder.toString());
 
@@ -118,7 +118,7 @@ public class HippoController extends Controller {
         StringBuilder pathBuilder = new StringBuilder("/content/").append(path);
 
         try {
-            HippoBean hippoBean = PlayHippo.getHippoBean(pathBuilder.toString());
+            HippoBean hippoBean = PlayHippoTool.getHippoBean(pathBuilder.toString());
             if (hippoBean == null) {
                 return noContent();
             }

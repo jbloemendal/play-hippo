@@ -19,14 +19,14 @@ import org.hippoecm.hst.content.beans.Node;
 import org.hippoecm.hst.content.beans.standard.HippoDocument;
 import org.hippoecm.hst.content.beans.standard.HippoHtml;
 
-@Node(jcrType="hippogogreen:newsitem")
+@Node(jcrType="gogreen:newsdocument")
 public class HippoGoGreenNewsDocument extends HippoDocument {
     
     protected String title;
     protected String bodyContent;
 
     public String getTitle() {
-        return (title != null ? title : (String) getProperty("hippogogreen:title"));
+        return (title != null ? title : (String) getProperty("gogreen:title"));
     }
     
     public void setTitle(String title) {
@@ -34,7 +34,7 @@ public class HippoGoGreenNewsDocument extends HippoDocument {
     }
     
     public HippoHtml getBody(){
-        return getHippoHtml("hippogogreen:description");
+        return getHippoHtml("gogreen:content");
     }
     
     public String getBodyContent() {

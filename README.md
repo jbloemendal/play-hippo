@@ -1,5 +1,5 @@
 #PlayHippo Service Module
-The service module wraps Hippo CMS 10.2.0 dependencies and provides a singelton helper tool class PlayHippo with which
+The service module wraps Hippo CMS 10.2.0 dependencies and provides a singelton helper tool class PlayHippoTool with which
 you can access Hippo repository using HST ContentBeans (see for example: model.HippoGoGreenNewsDocument and controllers.HomeController).
 
 
@@ -29,7 +29,7 @@ hippo.rmi.password = "admin"
 http://www.onehippo.org/library/concepts/content-repository/repository-deployment-settings.html
 
 
-##org.onehippo.playhippo.services.PlayHippo Usage
+##org.onehippo.playhippo.services.PlayHippoTool Usage
 ```
 public static HstQuery createQuery(String folderPath)
 

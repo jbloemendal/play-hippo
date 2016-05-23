@@ -1,5 +1,5 @@
 import com.google.inject.AbstractModule;
-import org.onehippo.playhippo.services.PlayHippo;
+import org.onehippo.playhippo.services.PlayHippoTool;
 import services.ApplicationTimer;
 import services.AtomicCounter;
 import services.Counter;
@@ -28,7 +28,7 @@ public class Module extends AbstractModule {
         // Set AtomicCounter as the implementation for Counter.
         bind(Counter.class).to(AtomicCounter.class);
 
-        bind(PlayHippo.class).asEagerSingleton();
+        bind(PlayHippoTool.class).asEagerSingleton();
     }
 
 }

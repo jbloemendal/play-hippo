@@ -14,7 +14,6 @@ import org.hippoecm.hst.content.beans.query.HstQueryManager;
 import org.hippoecm.hst.content.beans.query.HstQueryManagerImpl;
 import org.hippoecm.hst.content.beans.query.exceptions.QueryException;
 import org.hippoecm.hst.content.beans.standard.HippoBean;
-import org.hippoecm.hst.content.beans.standard.HippoDocument;
 import org.hippoecm.hst.content.beans.standard.HippoFolder;
 import org.hippoecm.hst.content.beans.standard.HippoFolderBean;
 import org.hippoecm.hst.util.ObjectConverterUtils;
@@ -33,14 +32,14 @@ import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
 @Singleton
-public class PlayHippo {
+public class PlayHippoTool {
 
     public static HippoRepository repo;
     public static Session session;
     public static Collection<Class<? extends HippoBean>> annotatedClasses = new ArrayList<Class<? extends HippoBean>>();
 
     @Inject
-    public PlayHippo(play.inject.ApplicationLifecycle appLifecycle) {
+    public PlayHippoTool(play.inject.ApplicationLifecycle appLifecycle) {
         Config config = ConfigFactory.load();
         try {
             annotatedClasses = getAnnotatedClasses();
@@ -112,7 +111,7 @@ public class PlayHippo {
     public static HippoBean getHippoBean(String path) throws ClassNotFoundException, ObjectBeanManagerException {
         ObjectConverter objectConverter = getObjectConverter();
 
-        ObjectBeanManager obm = new ObjectBeanManagerImpl(PlayHippo.session, objectConverter);
+        ObjectBeanManager obm = new ObjectBeanManagerImpl(PlayHippoTool.session, objectConverter);
 
         return (HippoBean) obm.getObject(path);
     }
@@ -128,9 +127,9 @@ public class PlayHippo {
     public static HstQuery createQuery(String folderPath) throws QueryException, ObjectBeanManagerException, ClassNotFoundException {
         ObjectConverter objectConverter = getObjectConverter();
 
-        ObjectBeanManager obm = new ObjectBeanManagerImpl(PlayHippo.session, objectConverter);
+        ObjectBeanManager obm = new ObjectBeanManagerImpl(PlayHippoTool.session, objectConverter);
 
-        HstQueryManager queryManager = new HstQueryManagerImpl(PlayHippo.session, objectConverter, null);
+        HstQueryManager queryManager = new HstQueryManagerImpl(PlayHippoTool.session, objectConverter, null);
 
         HippoFolder folder = (HippoFolder) obm.getObject(folderPath);
         return queryManager.createQuery(folder);
