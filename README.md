@@ -1,6 +1,6 @@
 ![PlayHippo Logo](https://raw.githubusercontent.com/jbloemendal/play-hippo/master/public/images/logo.png)
 #PlayHippo Service Module
-The service module wraps Hippo CMS 10.2.0 dependencies and provides a singelton helper tool class [PlayHippoTool.java](https://github.com/jbloemendal/play-hippo/blob/master/module/app/org/onehippo/playhippo/services/PlayHippoTool) with which you can access Hippo repository using HST ContentBeans.
+The service module wraps Hippo CMS 10.2.0 dependencies and provides a singelton helper tool class [PlayHippoTool.java](https://github.com/jbloemendal/play-hippo/blob/master/module/app/org/onehippo/playhippo/services/PlayHippoTool.java) with which you can access Hippo repository using HST ContentBeans.
 
 
 ##Add hippo service module dependency (build.sbt):
