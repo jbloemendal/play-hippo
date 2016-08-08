@@ -34,4 +34,4 @@ See [PlayHippoTool.java](https://github.com/jbloemendal/play-hippo/blob/master/m
 
 [https://playframework.com/](https://playframework.com/)<br/>
 [http://www.onehippo.org/](http://www.onehippo.org/)<br/>
-http://jannisbloe.blogspot.nl/2016/05/integrating-play-framework-and-hippo-cms.html
+http://jbloemen.blogspot.nl/2016/05/integrating-play-framework-and-hippo-cms.html
