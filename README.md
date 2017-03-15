@@ -1,9 +1,9 @@
 ![PlayHippo Logo](https://raw.githubusercontent.com/jbloemendal/play-hippo/master/public/images/logo.png)
-#PlayHippo Service Module
+# PlayHippo Service Module
 The service module wraps Hippo CMS 10.2.0 dependencies and provides a singelton helper tool class [PlayHippoTool.java](https://github.com/jbloemendal/play-hippo/blob/master/module/app/org/onehippo/playhippo/services/PlayHippoTool.java) with which you can access Hippo repository using HST ContentBeans.
 
 
-##Add hippo service module dependency (build.sbt):
+## Add hippo service module dependency (build.sbt):
 
 ```
 resolvers += (
@@ -17,7 +17,7 @@ libraryDependencies ++= Seq(
 ```
 
 
-##Configure your repository (conf/application.conf)
+## Configure your repository (conf/application.conf)
 ```
 hippo.rmi.uri = "rmi://localhost:1099/hipporepository"
 hippo.rmi.user = "admin"
@@ -25,11 +25,11 @@ hippo.rmi.password = "admin"
 ```
 
 
-##Enable rmi connections
+## Enable rmi connections
 http://www.onehippo.org/library/concepts/content-repository/repository-deployment-settings.html
 
 
-##PlayHippoTool Usage
+## PlayHippoTool Usage
 See [PlayHippoTool.java](https://github.com/jbloemendal/play-hippo/blob/master/module/app/org/onehippo/playhippo/services/PlayHippoTool.java) and [HippoController.java](https://github.com/jbloemendal/play-hippo/blob/master/app/controllers/HippoController.java).
 
 [https://playframework.com/](https://playframework.com/)<br/>
