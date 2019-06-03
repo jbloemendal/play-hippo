@@ -26,7 +26,10 @@ public class HippoGoGreenNewsDocument extends HippoDocument {
     protected String bodyContent;
 
     public String getTitle() {
-        return (title != null ? title : (String) getProperty("gogreen:title"));
+        if (title == null) {
+            title = (String) getProperty("gogreen:title");
+        }
+        return title;
     }
     
     public void setTitle(String title) {
@@ -38,16 +41,16 @@ public class HippoGoGreenNewsDocument extends HippoDocument {
     }
     
     public String getBodyContent() {
-        if (bodyContent != null) {
-            return bodyContent;
-        } else {
+        if (bodyContent == null) {
             HippoHtml html = getBody();
             
-            if (html != null) {
-                return html.getContent();
-            } else {
+            if (html == null) {
                 return null;
+            } else {
+                return html.getContent();
             }
+        } else {
+            return bodyContent;
         }
     }
     

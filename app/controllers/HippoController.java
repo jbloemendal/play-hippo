@@ -38,7 +38,9 @@ public class HippoController extends Controller {
             HippoBeanIterator it = result.getHippoBeans();
 
             final HippoBean bean;
-            if (it.hasNext() && (bean = it.nextHippoBean()) != null) {
+            if (it.hasNext()) { 
+                bean = it.nextHippoBean();
+                if (bean != null) {
                 return ok(Json.toJson(new HashMap() {
                     {
                         put("uuid", bean.getCanonicalUUID());
@@ -122,7 +124,6 @@ public class HippoController extends Controller {
             if (hippoBean == null) {
                 return noContent();
             }
-
             if (hippoBean instanceof HippoGoGreenNewsDocument) {
                 Logger.info("title: "+((HippoGoGreenNewsDocument) hippoBean).getTitle());
 
